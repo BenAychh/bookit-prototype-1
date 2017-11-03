@@ -1,0 +1,20 @@
+Hi all -- A quick report from your honorary ghost member...
+
+I've continued to play around with React Native's potential as a prototyping tool.
+
+I wanted to get a better sense of the "cost" of creating a prototype in React Native, so I gave myself two hours to see how far I could get recreating one of the Bookit prototypes.
+
+In hour one, I got a home screen finished, published, and runnable on my phone. (And anyone else's phone.)
+
+In hour two, I got a second screen with navigation between the two screens.
+
+The prototype is published, at least in a quick and dirty way, so anyone can run it on their device. Let me know if you'd like to give it a shot and I'll tell you how to run it. 
+
+From here, it would be pretty easy to spin up a Version B of the prototype. You could then load Version A on one device, Version B on the other, and do A/B user testing with real devices.
+
+Also, I'd love to have a conversation with anyone as to the value of this process, how it fits in with or competes with other approaches. Especially curious about the perspective of a Creative Tech, Delivery Lead, or Product Owner.
+
+- Test users can play with the app on a real device. Even their own device.
+- A PO may feel more confident that we'll deliver the prototype, since the prototype is more real.
+- Prototype is closer to the target medium.
+- Prototype code may be reusable.
