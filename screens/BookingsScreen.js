@@ -7,6 +7,7 @@ const bookings = [
   { name: 'Yellow Room', title: 'Naptime', key: 'Yellow-Room', description: 'Holds 8 people', availabileUntil: '3:00pm' },
 ]
 
+// TODO: Move into separate file
 const Booking = ({ booking }) => (
   <View style={styles.booking}>
     <Text>3:00 - 4:00pm</Text>
@@ -16,7 +17,8 @@ const Booking = ({ booking }) => (
   </View>
 )
 
-export default class LinksScreen extends React.Component {
+// TODO: rename
+export default class BookingsScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
