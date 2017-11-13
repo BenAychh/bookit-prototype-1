@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, TouchableHighlight } from 'react-nati
 
 const Room = ({room, onPress}) => (
   <TouchableHighlight
-    onPress={() => console.log(room.name)}
+    onPress={() => onPress(room.id)}
   >
     <View
       style={[styles.section, styles.room]}>

@@ -13,12 +13,8 @@ import { WebBrowser } from 'expo';
 
 import List from '../components/List';
 
-// TODO: Make GET for rooms here. Then pass to List.
-// TODO: Hold state of form
-// TODO: Define POST request
-
 const baseUrl = 'http://76731cb1.ngrok.io/v1/'
-// TODO: Make user selectable
+// TODO: Allow user to select location
 const locationId = 1
 
 const rooms = [
@@ -33,19 +29,14 @@ export default class HomeScreen extends React.Component {
   // QUESTION: What is this `static` about?
   static navigationOptions = {
     header: null,
-  };
+  }
 
   constructor() {
+    // TODO: Show isRequestPending in UI. Is there a RN/Expo way to do this?
     super()
     this.state = {
       isRequestPending: false,
       bookables: [],
-      form: {
-          bookableId: 1,
-          end: "2028-11-13T17:21",
-          start: "2028-11-13T16:21",
-          subject: "From native app",
-        }
     }
   }
 
@@ -60,8 +51,18 @@ export default class HomeScreen extends React.Component {
       })
   }
 
-  saveBooking() {
-    axios.post(`${baseUrl}booking`, this.state.form)
+  saveBooking(booking) {
+    const sampleBooking = {
+      bookableId: 1,
+      end: "2019-12-13T17:21",
+      start: "2019-12-13T16:21",
+      subject: "Sample booking",
+    }
+    console.log('booking');
+    console.log(booking)
+    console.log('sampleBooking');
+    console.log(sampleBooking)
+    axios.post(`${baseUrl}booking`, booking)
       .then(function (response) {
         console.log('Created booking:');
         console.log(response.data);
@@ -78,8 +79,8 @@ export default class HomeScreen extends React.Component {
       <List
         navigate={navigate}
           rooms={this.state.bookables}
-        saveBooking={() => {
-          this.saveBooking()
+        saveBooking={(b) => {
+          this.saveBooking(b)
         }}
       />
     );
