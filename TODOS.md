@@ -1,7 +1,6 @@
 TODOS:
 
 x Make post request when clicking Bookit
-- Keep state of form in HomeScreen
 
 x Fetch rooms from api
 
@@ -11,3 +10,4 @@ x Remove fetch. Use axios.
 
 - Set up form
   - Redux form or what?
+  - Keep state of form in HomeScreen?
