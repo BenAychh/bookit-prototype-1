@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+// TODO: Get rid of extra imports
 import {
   Image,
   Platform,
@@ -11,7 +12,7 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
-import List from '../components/List';
+import BookingForm from '../components/BookingForm';
 
 const baseUrl = 'http://76731cb1.ngrok.io/v1/'
 // TODO: Allow user to select location
@@ -32,7 +33,6 @@ export default class HomeScreen extends React.Component {
   }
 
   constructor() {
-    // TODO: Show isRequestPending in UI. Is there a RN/Expo way to do this?
     super()
     this.state = {
       isRequestPending: false,
@@ -41,34 +41,29 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-
+    this.setState({ isRequestPending: true })
     axios.get(`${baseUrl}location/${locationId}/bookable`)
       .then(response => {
-        this.setState({ bookables: response.data })
+        this.setState({ bookables: response.data, isRequestPending: false })
       })
       .catch(error => {
         console.log('Oh no. There was an error:', error.message)
+        this.setState({ isRequestPending: false })
       })
   }
 
   saveBooking(booking) {
-    const sampleBooking = {
-      bookableId: 1,
-      end: "2019-12-13T17:21",
-      start: "2019-12-13T16:21",
-      subject: "Sample booking",
-    }
-    console.log('booking');
-    console.log(booking)
-    console.log('sampleBooking');
-    console.log(sampleBooking)
+    const _this = this // QUESTION: Gross. Really? And why does it work in componentDidMount?
+    this.setState({ isRequestPending: true })
     axios.post(`${baseUrl}booking`, booking)
       .then(function (response) {
         console.log('Created booking:');
         console.log(response.data);
+        _this.setState({ isRequestPending: false })
       })
       .catch(function (error) {
         console.log(error.message);
+        _this.setState({ isRequestPending: false })
       });
   }
 
@@ -76,12 +71,13 @@ export default class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation
 
     return (
-      <List
+      <BookingForm
         navigate={navigate}
-          rooms={this.state.bookables}
+        rooms={this.state.bookables}
         saveBooking={(b) => {
           this.saveBooking(b)
         }}
+        isRequestPending={this.state.isRequestPending}
       />
     );
   }

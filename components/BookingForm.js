@@ -1,44 +1,35 @@
 import React from 'react';
+import moment from 'moment'
 import { StyleSheet, Text, View, FlatList, TouchableHighlight } from 'react-native';
 import Room from './Room.js'
 import Button from './Button.js'
 import Link from './Link.js'
-import moment from 'moment'
+import ActivityIndicator from '../components/ActivityIndicator';
 
-// TODO: Move these components to separate files.
-// TODO: List should take rooms as props
-// TODO: This isn't really `List`. More like `BookingForm`. Rename when this is clear.
-// TODO: Make this a stateless component. The "screen" should hold the state.
+// TODO: Make time length pickable. Make that text larger.
+// TODO: Move button to bottom of screen.
+// QUESTION: Should BookingForm or HomeScreen keep track of isRequestPending?
 
-export default class List extends React.Component {
+export default class BookingForm extends React.Component {
   constructor() {
     super()
     this.state = {
-      bookableId: null
+      bookableId: null,
+
     }
   }
 
   render() {
-    const { navigate, rooms, saveBooking } = this.props
+    const { navigate, rooms, saveBooking, isRequestPending } = this.props
 
     return (
       <View style={styles.container}>
         <View style={{ flex: 1.3 }}>
-          <View style={styles.section}>
-            <Text>Your next meetings is in 15 minutes in the Red Room</Text>
-            <Text>Id: {this.state.bookableId}</Text>
-              <Link
-                label="View your bookings"
-                onPress={() => {
-                  navigate('Bookings', { name: 'linksypoo'})
-                }}
-              />
-          </View>
           <View style={{ flex: 1 }}>
+            <ActivityIndicator isActive={isRequestPending} />
             <Button
               label="Bookit"
               onPress={() => {
-                console.log('Pressed');
                 const start = moment()
                 const end = start.clone().add(1, 'minute')
                 const booking = {
@@ -52,7 +43,7 @@ export default class List extends React.Component {
             />
           </View>
           <View style={styles.section}>
-            <Text>I need a room right now for: <Text style={styles.linkText}>1 hour</Text></Text>
+            <Text>I need a room right now for: <Text style={styles.linkText}>1 minute</Text></Text>
           </View>
         </View>
 
