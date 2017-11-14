@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, FlatList } from 'react-native';
 
+// TODO: Get bookings from server.
 const bookings = [
   { name: 'White Room', title: 'Creative Tech Meeting', key: 'White-Room', description: 'Holds 16 people', availabileUntil: '5:30pm' },
   { name: 'Black Room', title: 'Whiteboard sesh', key: 'Black-Room', description: 'Holds 10 people', availabileUntil: '4:30pm' },

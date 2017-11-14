@@ -1,22 +1,36 @@
 import React from 'react';
 import moment from 'moment'
-import { StyleSheet, Text, View, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableHighlight, Modal } from 'react-native';
 import Room from './Room.js'
 import Button from './Button.js'
 import Link from './Link.js'
-import ActivityIndicator from '../components/ActivityIndicator';
+import ActivityIndicator from './ActivityIndicator';
+import TimePicker from './TimePicker';
 
-// TODO: Make time length pickable. Make that text larger.
+// TODO: Indicate currently selected room.
+// TODO: Default to first room in the list.
 // TODO: Move button to bottom of screen.
+// TODO: Need to remove lots of cruft. Comments, extra components.
+// TODO: Need to fix styling.
 // QUESTION: Should BookingForm or HomeScreen keep track of isRequestPending?
 
 export default class BookingForm extends React.Component {
   constructor() {
     super()
+    const start = moment()
+    const end = start.clone().add(1, 'hour')
     this.state = {
       bookableId: null,
-
+      bookingDuration: moment.duration(1, 'minute'), // TODO: Get rid of this.
+      start,
+      end,
+      durationModalVisible: false,
+      location: 'NYC',
     }
+  }
+
+  setModalVisible(isVisible) {
+    this.setState({ durationModalVisible: isVisible })
   }
 
   render() {
@@ -24,30 +38,48 @@ export default class BookingForm extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1.3 }}>
-          <View style={{ flex: 1 }}>
-            <ActivityIndicator isActive={isRequestPending} />
-            <Button
-              label="Bookit"
-              onPress={() => {
-                const start = moment()
-                const end = start.clone().add(1, 'minute')
-                const booking = {
-                  bookableId: this.state.bookableId,
-                  start: start.clone().toISOString(),
-                  end: end.toISOString(),
-                  subject: `Created: ${start.toISOString()}`
-                }
-                saveBooking(booking)
-              }}
-            />
+        <View style={{ flex: 1, marginLeft: 30 }}>
+          <Text style={{ fontSize: 30, marginBottom: 30, marginTop: 30, }}>I need a room in {this.state.location}.</Text>
+          <View style={styles.timePickerSection}>
+            <TimePicker
+               label="Start"
+               date={this.state.start}
+               onDateChange={value => {
+                 this.setState({ start: value })
+               }}
+               maximumDate={this.state.end}
+             />
+             <TimePicker
+               label="End"
+               date={this.state.end}
+               onDateChange={value => {
+                 this.setState({ end: value })
+               }}
+               minimumDate={this.state.start}
+             />
           </View>
-          <View style={styles.section}>
-            <Text>I need a room right now for: <Text style={styles.linkText}>1 minute</Text></Text>
-          </View>
+
         </View>
 
-        <View style={{ flex: 2 }}>
+        <View style={{ flex: 1 }}>
+        <ActivityIndicator isActive={isRequestPending} />
+        <Button
+        label="Bookit"
+        onPress={() => {
+          // const start = moment()
+          // const end = start.clone().add(1, 'hour')
+          const booking = {
+            bookableId: this.state.bookableId,
+            start: this.state.start.toISOString(),
+            end: this.state.end.toISOString(),
+            subject: `Created: ${this.state.start.format()}`
+          }
+          saveBooking(booking)
+        }}
+        />
+        </View>
+
+        <View style={{ flex: 1 }}>
           <FlatList
             data={rooms}
             renderItem={({item}) => (
@@ -71,12 +103,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 40,
   },
-  section: {
+  timePickerSection: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    padding: 30,
   },
   room: {
     flex: 1,

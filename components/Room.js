@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableHighlight } from 'react-native';
-
+//TODO: Indicate currently selected room.
 const Room = ({room, onPress}) => (
   <TouchableHighlight
     onPress={() => onPress(room.id)}
