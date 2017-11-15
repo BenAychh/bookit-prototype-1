@@ -7,35 +7,34 @@ import Link from './Link.js'
 import ActivityIndicator from './ActivityIndicator';
 import TimePicker from './TimePicker';
 
-// TODO: Indicate currently selected room.
 // TODO: Default to first room in the list.
 // TODO: Move button to bottom of screen.
 // TODO: Need to remove lots of cruft. Comments, extra components.
 // TODO: Need to fix styling.
 // QUESTION: Should BookingForm or HomeScreen keep track of isRequestPending?
+// TODO: Allow user to select location
 
 export default class BookingForm extends React.Component {
   constructor() {
     super()
+
     const start = moment()
     const end = start.clone().add(1, 'hour')
+
     this.state = {
-      bookableId: null,
-      bookingDuration: moment.duration(1, 'minute'), // TODO: Get rid of this.
+      bookableId: 1001,
       start,
       end,
-      durationModalVisible: false,
       location: 'NYC',
     }
   }
 
-  setModalVisible(isVisible) {
-    this.setState({ durationModalVisible: isVisible })
+  handleBookablePress = (bookableId) => {
+    this.setState({ bookableId })
   }
 
   render() {
     const { navigate, rooms, saveBooking, isRequestPending } = this.props
-
     return (
       <View style={styles.container}>
         <View style={{ flex: 1, marginLeft: 30 }}>
@@ -62,34 +61,33 @@ export default class BookingForm extends React.Component {
         </View>
 
         <View style={{ flex: 1 }}>
-        <ActivityIndicator isActive={isRequestPending} />
-        <Button
-        label="Bookit"
-        onPress={() => {
-          // const start = moment()
-          // const end = start.clone().add(1, 'hour')
-          const booking = {
-            bookableId: this.state.bookableId,
-            start: this.state.start.toISOString(),
-            end: this.state.end.toISOString(),
-            subject: `Created: ${this.state.start.format()}`
-          }
-          saveBooking(booking)
-        }}
-        />
+          <ActivityIndicator isActive={isRequestPending} />
+          <Button
+            label="Bookit"
+            onPress={() => {
+              const booking = {
+                bookableId: this.state.bookableId,
+                start: this.state.start.toISOString(),
+                end: this.state.end.toISOString(),
+                subject: `Created: ${this.state.start.format()}`
+              }
+              saveBooking(booking)
+            }}
+          />
         </View>
 
         <View style={{ flex: 1 }}>
           <FlatList
             data={rooms}
-            renderItem={({item}) => (
-              <Room
-                room={item}
-                onPress={(bookableId) => {
-                  this.setState({ bookableId })
-                }}
-              />
-            )}
+            extraData={this.state}
+            renderItem={({item}) => {
+              return (
+                <Room
+                  room={item}
+                  selected={this.state.bookableId}
+                  onPressItem={this.handleBookablePress}
+                />
+            )}}
             keyExtractor={(item => item.id)}
           />
         </View>

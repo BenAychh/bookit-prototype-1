@@ -1,15 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableHighlight } from 'react-native';
-//TODO: Indicate currently selected room.
-const Room = ({room, onPress}) => (
+
+const Room = ({room, onPressItem, selected }) => (
   <TouchableHighlight
-    onPress={() => onPress(room.id)}
+    onPress={() => onPressItem(room.id)}
+    underlayColor="#ddd"
   >
-    <View
-      style={[styles.section, styles.room]}>
-      <View style={styles.column}>
-        <Text style={styles.roomName}>{room.name}</Text>
-      </View>
+    <View style={[
+      styles.room,
+      room.id === selected ? styles.selected : styles.notSelected
+    ]}>
+      <Text style={styles.roomName}>{room.name}</Text>
     </View>
   </TouchableHighlight>
 )
@@ -17,24 +18,20 @@ const Room = ({room, onPress}) => (
 export default Room
 
 const styles = StyleSheet.create({
-  section: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    padding: 30,
-  },
   room: {
-    flex: 1,
-    flexDirection: 'row',
+    paddingLeft: 30,
+    marginLeft: 30,
+    marginBottom: 15,
+    borderLeftWidth: 3,
+    paddingLeft: 5,
   },
   roomName: {
     fontSize: 18,
   },
-  roomDescription: {
-    fontSize: 10,
+  notSelected: {
+    borderLeftColor: '#eee',
   },
-  column: {
-    flex: 1
-  },
+  selected: {
+    borderLeftColor: 'tomato',
+  }
 });
