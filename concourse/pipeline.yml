@@ -1,0 +1,43 @@
+---
+resource_types:
+  - name: npm-cache
+    type: docker-image
+    source:
+      repository: ymedlop/npm-cache-resource
+      tag: "latest"
+  - name: slack-notification
+    type: docker-image
+    source:
+      repository: cfcommunity/slack-notification-resource
+      tag: latest
+
+resources:
+- name: bookit
+  type: git
+  source: &repo-source
+    uri: https://github.com/saoirse-zee/bookit-prototype-1
+    branch: {{branch}}
+- name: dependency-cache
+  type: npm-cache
+  source:
+    <<: *repo-source
+    paths:
+      - package.json
+
+jobs:
+- name: Install Dependencies
+  plan:
+    - get: bookit
+      trigger: true
+    - get: dependency-cache
+- name: Lint Twig Code Base
+  plan:
+    - get: bookit
+      trigger: true
+      passed:
+        - Install Dependencies
+    - get: dependency-cache
+    - task: handle dependencies
+      file: twig/concourse/tasks/dependencies.yml
+    - task: lint the project
+      file: twig/concourse/tasks/lint.yml
