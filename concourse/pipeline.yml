@@ -12,7 +12,7 @@ resource_types:
       tag: latest
 
 resources:
-- name: bookit
+- name: bookit-prototype-1
   type: git
   source: &repo-source
     uri: https://github.com/saoirse-zee/bookit-prototype-1
@@ -27,17 +27,36 @@ resources:
 jobs:
 - name: Install Dependencies
   plan:
-    - get: bookit
+    - get: bookit-prototype-1
       trigger: true
     - get: dependency-cache
-- name: Lint Twig Code Base
+- name: Lint Bookit-Mobile Code Base
   plan:
-    - get: bookit
+    - get: bookit-prototype-1
       trigger: true
       passed:
         - Install Dependencies
     - get: dependency-cache
     - task: handle dependencies
-      file: twig/concourse/tasks/dependencies.yml
+      file: bookit-prototype-1/concourse/tasks/dependencies.yml
     - task: lint the project
-      file: twig/concourse/tasks/lint.yml
+      file: bookit-prototype-1/concourse/tasks/lint.yml
+- name: Run Unit Tests
+  plan:
+    - get: bookit-prototype-1
+      trigger: true
+      passed:
+        - Install Dependencies
+    - get: dependency-cache
+    - task: handle dependencies
+      file: bookit-prototype-1/concourse/tasks/dependencies.yml
+    - task: run the unit tests
+      file: bookit-prototype-1/concourse/tasks/run_unit_tests.yml
+- name: Build Android Image
+  plan:
+    - get: bookit-prototype-1
+      trigger: true
+      passed:
+        - Lint Bookit-Mobile Code Base
+        - Run Unit Tests
+    - get: dependency-cache
