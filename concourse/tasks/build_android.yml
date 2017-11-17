@@ -6,5 +6,8 @@ image_resource:
     repository: node
     tag: latest
 
+inputs:
+  - name: bookit-prototype-1
+
 run:
   path: bookit-prototype-1/concourse/scripts/build_android.sh
