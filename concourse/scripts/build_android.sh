@@ -15,7 +15,7 @@ wait_until_build_finishes () {
 apt-get update && apt-get install -y expect && \
 yarn global add exp && \
 ${SCRIPTPATH}/login_exp.sh && \
-cd bookit-prototype-1 && \
+cd bookit-with-deps-1 && \
 exp ba --config ./expo.integration.json && \
 wait_until_build_finishes
 
