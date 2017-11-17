@@ -59,9 +59,6 @@ jobs:
       passed:
         - Lint Bookit-Mobile Code Base
         - Run Unit Tests
-    - get: dependency-cache
-    - task: handle dependencies
-      file: bookit-prototype-1/concourse/tasks/dependencies.yml
     - task: Build Android Project
       params:
         EXPO_USERNAME: {{EXPO_USERNAME}}

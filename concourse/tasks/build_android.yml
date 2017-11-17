@@ -6,8 +6,5 @@ image_resource:
     repository: node
     tag: latest
 
-inputs:
-  - name: bookit-with-deps
-
 run:
-  path: bookit-with-deps/concourse/scripts/build_android.sh
+  path: bookit-prototype-1/concourse/scripts/build_android.sh
