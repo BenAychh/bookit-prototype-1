@@ -35,5 +35,5 @@ if [ -z "$ANDROID_APP_URL" ]; then
   exit 1
 fi
 
-"exp bs --config ./expo.integration.json | grep 'APK:' | awk -F ": " '{print$2}'"
+exp bs --config ./expo.integration.json | grep 'APK:' | awk -F ": " '{print$2}'
 
