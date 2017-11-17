@@ -4,11 +4,11 @@ SCRIPTPATH=$(dirname $(readlink -f $0))
 wait_until_build_finishes () {
   COUNT=0
 
-  while [ -z $ANDROID_APP_URL -a $COUNT -lt 20 ]; do  
+  while [ -z "$ANDROID_APP_URL" ] && [ $COUNT -lt 20 ]; do  
     echo 'checking for the URL'
-    ANDROID_APP_URL=`exp bs --config ./expo.integration.json | grep 'APK:' | awk -F ": " '{print$2}'`
+    ANDROID_APP_URL=$(exp bs --config ./expo.integration.json | grep 'APK:' | awk -F ": " '{print$2}')
     sleep 60
-    COUNT=COUNT+1
+    COUNT=$(COUNT+1)
   done  
 }
 
