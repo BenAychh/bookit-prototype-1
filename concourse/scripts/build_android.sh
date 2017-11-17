@@ -16,7 +16,7 @@ apt-get update && apt-get install -y expect && \
 yarn global add exp && \
 ${SCRIPTPATH}/login_exp.sh && \
 cd bookit-prototype-1 && \
-exp ba --config ./bookit-with-dependencies/expo.integration.json && \
+exp ba --config ./expo.integration.json && \
 wait_until_build_finishes
 
 if [ -z $ANDROID_APP_URL ]; then
