@@ -18,5 +18,8 @@
   },
   "ios": {
     "supportsTablet": true
+  },
+  "android": {
+    "package": "io.benaychh.bookitmobile"
   }
 }
