@@ -16,7 +16,7 @@ resources:
   type: git
   source: &repo-source
     uri: https://github.com/saoirse-zee/bookit-prototype-1
-    branch: {{branch}}
+    branch: master
 - name: dependency-cache
   type: npm-cache
   source:
@@ -60,3 +60,5 @@ jobs:
         - Lint Bookit-Mobile Code Base
         - Run Unit Tests
     - get: dependency-cache
+    - task: Build Android Project
+      file: bookit-prototype-1/concourse/tasks/build_android.yml
