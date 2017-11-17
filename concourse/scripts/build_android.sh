@@ -1,4 +1,5 @@
 #!/bin/bash
+SCRIPTPATH=$(dirname $(readlink -f $0))
 
 wait_until_build_finishes () {
   COUNT=0
@@ -13,7 +14,7 @@ wait_until_build_finishes () {
 
 apt-get update && apt-get install -y expect && \
 yarn global add exp && \
-./login_exp.sh && \
+${SCRIPTPATH}/login_exp.sh && \
 exp ba --config ./bookit-with-dependencies/expo.integration.json && \
 wait_until_build_finishes
 

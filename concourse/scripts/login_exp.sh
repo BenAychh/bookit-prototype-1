@@ -1,8 +1,8 @@
 #!/usr/bin/expect
 
 set timeout 9
-set username "benaychh\r"
-set password "3T\$x&5uMKXl8\r"
+set username [string cat $env(EXPO_USERNAME) "\r"]
+set password [string cat $env(EXPO_PASSWORD) "\r"]
 
 spawn exp login
 
